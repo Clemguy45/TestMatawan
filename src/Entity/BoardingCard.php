@@ -29,7 +29,7 @@ class BoardingCard
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $siege = null;
 
-    //numéro de vole ou de transport de bus
+    // Flight number or bus transport number
     #[ORM\Column(length: 255)]
     private ?string $embarcation = null;
     

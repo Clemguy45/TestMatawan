@@ -21,13 +21,13 @@ class BoardingCardController extends AbstractController
     #[Route('/api/boarding-card/sort', name: 'app_boarding_card', methods: ['POST'])]
     public function sortBordingCard(Request $request): JsonResponse
     {
-        // Nos données récupérées au format JSON envoyé par la requête
+        // Data retrieved in JSON format sent by the request
         $data = json_decode($request->getContent(), true);
 
-        // notre fonction de trie basée sur la date de départ
+        // Sorting function based on the departure date
         $sortedBoardingCards = $this->boardingCardService->sort($data);
 
-        // Convertion des données triées vers une version JSON
+        // Converting sorted data to JSON version
         $sortedBoardingCardsData = [];
         foreach ($sortedBoardingCards as $sortedBoardingCard) {
             $sortedBoardingCardsData[] = [
@@ -41,7 +41,7 @@ class BoardingCardController extends AbstractController
             ];
         }
 
-        // Retourner la liste triée de cartes d'embarquement sous forme de réponse JSON
+        // Return the sorted list of boarding cards as a JSON response
         return new JsonResponse($sortedBoardingCardsData);
     }
 }

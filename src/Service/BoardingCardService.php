@@ -6,7 +6,7 @@ use App\Entity\BoardingCard;
 class BoardingCardService
 {
     /**
-     * Méthode privée pour trier les cartes d'embarquement par date et heure de départ
+     * Private method to sort boarding cards by departure date and time
      * @param array $boardingCards
      * @return array
      */

@@ -14,13 +14,13 @@ class BoardingCardControllerTest extends WebTestCase
 {
     public function testSortBoardingCardsList()
     {
-        // Créez un mock pour le service BoardingCardService
+        // Create a mock for the BoardingCardService
         $boardingCardServiceMock = $this->createMock(BoardingCardService::class);
         
-        // Créez une instance de votre contrôleur en injectant le mock du service
+        // Create an instance of your controller injecting the service mock
         $controller = new BoardingCardController($boardingCardServiceMock);
         
-        // Créez une requête avec des données JSON
+        // Create a request with JSON data
         $requestData = [
             [
                 'typeTransport' => 'Train',
@@ -50,10 +50,10 @@ class BoardingCardControllerTest extends WebTestCase
         ];
         $request = new Request([], [], [], [], [], [], json_encode($requestData));
         
-        // Appelez la méthode à tester sur le contrôleur avec la demande
+        // Call the method to test on the controller with the request
         $response = $controller->sortBordingCard($request);
         
-        // Vérifiez que la réponse est une JsonResponse
+        // Check that the response is a JsonResponse
         $this->assertInstanceOf(JsonResponse::class, $response);
     }
 }
