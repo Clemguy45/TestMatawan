@@ -18,4 +18,27 @@ class BoardingCardService
 
         return $boardingCards;
     }
+
+    /**
+     * Convert sorted boarding cards to an array of data
+     * @param array $sortedBoardingCards
+     * @return array
+     */
+    public function convertToDataArray(array $sortedBoardingCards): array
+    {
+        $sortedBoardingCardsData = [];
+        foreach ($sortedBoardingCards as $sortedBoardingCard) {
+            $sortedBoardingCardsData[] = [
+                'typeTransport' => $sortedBoardingCard->getTypeTransport(),
+                'lieuDepart' => $sortedBoardingCard->getLieuDepart(),
+                'destination' => $sortedBoardingCard->getDestination(),
+                'embarcation' => $sortedBoardingCard->getEmbarcation(),
+                'dateDepart' => $sortedBoardingCard->getDateDepart()->format('Y-m-d H:i:s'),
+                'porte' => $sortedBoardingCard->getPorte(),
+                'siege' => $sortedBoardingCard->getSiege()
+            ];
+        }
+        
+        return $sortedBoardingCardsData;
+    }
 }

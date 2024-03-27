@@ -27,19 +27,8 @@ class BoardingCardController extends AbstractController
         // Sorting function based on the departure date
         $sortedBoardingCards = $this->boardingCardService->sort($data);
 
-        // Converting sorted data to JSON version
-        $sortedBoardingCardsData = [];
-        foreach ($sortedBoardingCards as $sortedBoardingCard) {
-            $sortedBoardingCardsData[] = [
-                'typeTransport' => $sortedBoardingCard->getTypeTransport(),
-                'lieuDepart' => $sortedBoardingCard->getLieuDepart(),
-                'destination' => $sortedBoardingCard->getDestination(),
-                'embarcation' => $sortedBoardingCard->getEmbarcation(),
-                'dateDepart' => $sortedBoardingCard->getDateDepart()->format('Y-m-d H:i:s'),
-                'porte' => $sortedBoardingCard->getPorte(),
-                'siege' => $sortedBoardingCard->getSiege()
-            ];
-        }
+        // Convert sorted boarding cards to array of data
+        $sortedBoardingCardsData = $this->boardingCardService->convertToDataArray($sortedBoardingCards);
 
         // Return the sorted list of boarding cards as a JSON response
         return new JsonResponse($sortedBoardingCardsData);
