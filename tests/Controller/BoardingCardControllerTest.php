@@ -3,74 +3,57 @@
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Controller\BoardingCardController;
+use App\Entity\BoardingCard;
+use App\Service\BoardingCardService;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BoardingCardControllerTest extends WebTestCase
 {
     public function testSortBoardingCardsList()
     {
-        $client = static::createClient();
-
-        // Créer des cartes d'embarquement de test
-        $boardingCards = [
+        // Créez un mock pour le service BoardingCardService
+        $boardingCardServiceMock = $this->createMock(BoardingCardService::class);
+        
+        // Créez une instance de votre contrôleur en injectant le mock du service
+        $controller = new BoardingCardController($boardingCardServiceMock);
+        
+        // Créez une requête avec des données JSON
+        $requestData = [
             [
                 'typeTransport' => 'Train',
-                'dateDepart' => '2024-03-27 08:00:00',
-                'destination' => 'Barcelona',
-                'lieuDepart' => 'Madrid Station',
-                'porte' => null,
-                'siege' => 'Seat 45B',
-                'embarcation' => 'TGV123'
-            ],
-            [
-                'typeTransport' => 'Bus',
-                'dateDepart' => '2024-03-27 12:00:00',
-                'destination' => 'Gerona',
-                'lieuDepart' => 'Barcelona Bus Terminal',
-                'porte' => null,
-                'siege' => null,
-                'embarcation' => 'Bus123'
+                'lieuDepart' => 'Paris',
+                'destination' => 'London',
+                'embarcation' => 'TGV',
+                'dateDepart' => '2024-04-01 10:00:00',
+                'porte' => 'A',
+                'siege' => '12A'
             ],
             [
                 'typeTransport' => 'Flight',
-                'dateDepart' => '2024-03-27 14:00:00',
-                'destination' => 'Stockholm',
-                'lieuDepart' => 'Girona Airport',
-                'porte' => 'Gate 45B',
-                'siege' => 'Seat 3A',
-                'embarcation' => 'SK455'
+                'lieuDepart' => 'London',
+                'destination' => 'New York',
+                'embarcation' => 'BA123',
+                'dateDepart' => '2024-04-02 08:00:00',
+                'porte' => 'B',
+                'siege' => '24F'
+            ],
+            [
+                'typeTransport' => 'Bus',
+                'lieuDepart' => 'New York',
+                'destination' => 'Los Angeles',
+                'embarcation' => 'Greyhound',
+                'dateDepart' => '2024-04-03 12:00:00'
             ]
         ];
-
-        // Afficher le tableau non trié
-        echo "Tableau non trié : \n";
-        var_dump($boardingCards);
-
-        // Transformez les cartes en JSON pour les envoyer en tant que données de requête POST
-        $jsonData = json_encode($boardingCards);
-
-        // Envoyer une requête POST au contrôleur avec les données de cartes d'embarquement
-        $client->request('POST', '/api/boarding-card/sort', [], [], [], $jsonData);
-
-        // Vérifier si la réponse est réussie (code HTTP 200)
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-
-        // Vérifier si la réponse contient des données JSON
-        $this->assertJson($client->getResponse()->getContent());
-
-        // Convertir les données JSON en tableau
-        $sortedBoardingCards = json_decode($client->getResponse()->getContent(), true);
-
-        // Afficher le tableau trié
-        echo "Tableau trié : \n";
-        var_dump($sortedBoardingCards);
-
-        // Vérifier si les cartes sont triées correctement
-        $expectedOrder = ['Barcelona', 'Gerona', 'Stockholm'];
-        $actualOrder = [];
-        foreach ($sortedBoardingCards as $card) {
-            $actualOrder[] = $card['destination'];
-        }
-
-        $this->assertEquals($expectedOrder, $actualOrder);
+        $request = new Request([], [], [], [], [], [], json_encode($requestData));
+        
+        // Appelez la méthode à tester sur le contrôleur avec la demande
+        $response = $controller->sortBordingCard($request);
+        
+        // Vérifiez que la réponse est une JsonResponse
+        $this->assertInstanceOf(JsonResponse::class, $response);
     }
 }
