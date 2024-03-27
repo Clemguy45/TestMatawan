@@ -7,7 +7,7 @@ Le test a été effectué en PHP 8.3.4 et Composer 2.7.2, avec le framework Symf
 
 ## Prérequis
 
-Assurez-vous que vous avez PHP 8.2.0 et plus, ainsi que Composer installés sur votre machine.
+Assurez-vous que vous avez PHP 8.2.0 ou plus, ainsi que Composer installés sur votre machine.
 
 ## Installation
 
